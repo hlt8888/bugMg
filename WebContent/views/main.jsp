@@ -15,7 +15,7 @@
 <script type="text/javascript" src="/easyui/plugins/jquery.tooltip.js"></script>
 <script type="text/javascript" src="/easyui/js/main.js"></script>
 <script type="text/javascript">
-	var _url = "http://192.168.1.99:8080";
+	var _url = "http://127.0.0.1:8080";
 	var _menus = {
 		"menus" : [
 				{
