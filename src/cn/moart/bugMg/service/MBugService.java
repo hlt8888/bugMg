@@ -1,6 +1,7 @@
 package cn.moart.bugMg.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,11 @@ public class MBugService {
 	/**
 	 * 检索所有的User
 	 */
-	public List<MBug> getAll() {
+	public List<Map<String, Object>> getAll() {
 		return dao.getAll();
+	}
+	
+	public Map<String, Object> getMBugById(int id) {
+		return dao.getMBugById(id);
 	}
 }

@@ -11,11 +11,10 @@
 <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/easyui/plugins/jquery.parser.js"></script>
-<script type="text/javascript" src="/easyui/plugins/jquery.tooltip.js"></script>
+<script type="text/javascript" src="/easyui/js/fix.js"></script><!-- import this file for fixing two request bug -->
 <script type="text/javascript" src="/easyui/js/main.js"></script>
 <script type="text/javascript">
-	var _url = "http://127.0.0.1:8080";
+	_url = "http://127.0.0.1:8080";
 	var _menus = {
 		"menus" : [
 				{
@@ -80,8 +79,8 @@
 	<div data-options="region:'south',border:false" style="height: 50px; background: #A9FACD; padding: 10px;">
 		Working!!!
 	</div>
-	<div id="mainPanle" data-options="region:'center'">
-		<div  id="tabs" class="easyui-tabs" style="width: 100%; height: 100%">
+	<div id="mainPanle" data-options="region:'center'" style="">
+		<div  id="tabs" class="easyui-tabs" data-options='fit:true,border:false'  style="width: 100%; height: 100%;overflow:auto;">
 		</div>
 	</div>
 </body>

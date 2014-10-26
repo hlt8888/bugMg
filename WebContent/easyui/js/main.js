@@ -2,7 +2,7 @@
 	InitLeftMenu();
 	tabClose();
 	tabCloseEven();
-})
+});
 
 //初始化左侧
 function InitLeftMenu() {
@@ -13,7 +13,7 @@ function InitLeftMenu() {
 		menulist +='<ul>';
         $.each(n.menus, function(j, o) {
 			menulist += '<li><div><a ref="'+o.menuid+'" href="javascript:void(0)" rel="' + o.url + '" ><span class="icon '+o.icon+'" ></span><span class="nav">' + o.menuname + '</span></a></div></li> ';
-        })
+        });
 		menulist += '</ul>';
 		$('#nav').accordion('add', {
             title: n.menuname,
@@ -28,7 +28,7 @@ function InitLeftMenu() {
 
 		var url = $(this).attr("rel");
 		var menuid = $(this).attr("ref");
-		var icon = getIcon(menuid,icon);
+		var icon = getIcon(menuid,"");
 		addTab(tabTitle,url,icon);
 		$('.easyui-accordion li div').removeClass("selected");
 		$(this).parent().addClass("selected");
@@ -51,8 +51,8 @@ function getIcon(menuid){
 		 	if(o.menuid==menuid){
 				icon += o.icon;
 			}
-		 })
-	})
+		 });
+	});
 
 	return icon;
 }
@@ -74,9 +74,9 @@ function addTab(subtitle,url,icon){
 
 	if (url.indexOf('http') === -1) {
 		if (url[0] !== '/'){
-			url = 'http://192.168.1.12:8008/' + url;
+			url = _url + url;
 		} else {
-			url = 'http://192.168.1.12:8008' + url;
+			url = _url + url;
 		}
 	}
 	
@@ -85,6 +85,7 @@ function addTab(subtitle,url,icon){
 			title:subtitle,
 			content:createFrame(url),
 			closable:true,
+			closed:true,
 			icon:icon
 		});
 	}else{
@@ -125,7 +126,7 @@ function addTabMust(subtitle,url,icon){
 
 function createFrame(url)
 {
-	var s = '<iframe id="firstLevel" frameborder="0" name="firstLevel" src="'+url+'" style="margin-bottom:10px;width:100%;height:100%;overflow:hidden; "></iframe>';
+	var s = '<iframe scrolling="yes" id="firstLevel" frameborder="0" name="firstLevel" src="'+url+'" style="margin:0px;width:100%;height:100%;overflow:hidden;"></iframe>';
 	return s;
 }
 
@@ -135,7 +136,7 @@ function tabClose()
 	$(".tabs-inner").dblclick(function(){
 		var subtitle = $(this).children(".tabs-closable").text();
 		$('#tabs').tabs('close',subtitle);
-	})
+	});
 	/*为选项卡绑定右键*/
 	$(".tabs-inner").bind('contextmenu',function(e){
 		$('#mm').menu('show', {
@@ -160,7 +161,7 @@ function refreshCurrenTab(){
 		options:{
 			content:createFrame(url)
 		}
-	})
+	});
 }
 //绑定右键菜单事件
 function tabCloseEven()
@@ -175,13 +176,13 @@ function tabCloseEven()
 			options:{
 				content:createFrame(url)
 			}
-		})
-	})
+		});
+	});
 	//关闭当前
 	$('#mm-tabclose').click(function(){
 		var currtab_title = $('#mm').data("currtab");
 		$('#tabs').tabs('close',currtab_title);
-	})
+	});
 	//全部关闭
 	$('#mm-tabcloseall').click(function(){
 		$('.tabs-inner span').each(function(i,n){
@@ -225,7 +226,7 @@ function tabCloseEven()
 	//退出
 	$("#mm-exit").click(function(){
 		$('#mm').menu('hide');
-	})
+	});
 }
 
 //弹出信息窗口 title:标题 msgString:提示信息 msgType:信息类型 [error,info,question,warning]

@@ -17,17 +17,11 @@
 <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/easyui/plugins/jquery.parser.js"></script>
-<script type="text/javascript" src="/easyui/plugins/jquery.tooltip.js"></script>
 </head>
-<body style="overflow: hidden">
+<body style="overflow: hidden;">
+
 	<table id="list_table"></table>
-	<div id="toolbar">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeUser()">Remove User</a>
-	</div>
-	
+
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#list_table').datagrid({
@@ -35,14 +29,54 @@
 				rownumbers: true,
 				fitColumns: true,
 				singleSelect: true,
-				toolbar:'#toolbar',
-				url:'/bugs',
+				height:"100%",
+				// toolbar:'#toolbar',
+				url:'/views/bug/bugs',
 				columns:[[
 					{field:'id', title:'ID',width:200},
 					{field:'name',title:'BugName',width:200},
 					{field:'content',title:'BugContent',width:500}
-				]]
+				]],
+				toolbar: [
+					{
+						id: "unfole",
+						text: "新建",
+						iconCls: "icon-add",
+						handler: function(){
+							
+						}
+					},
+					{
+						id: "unfole",
+						text: "展开",
+						iconCls: "layout-button-right",
+						handler: function(){
+							if(idsIsChecked()) {
+								var ids = getSelections();
+								window.parent.addTab(ids[0]+"bug_show",window.parent._url+"/views/bug/bugedit?id="+ids[0]);
+							}
+						}
+					}
+				]
 			});
+
+			var getSelections = function() {
+				var ids = [];
+				var rows = $('#list_table').datagrid('getSelections');
+				for(var i = 0; i < rows.length; i++) {
+					ids.push(rows[i].id);
+				}
+
+				return ids;
+			}
+
+			var idsIsChecked = function() {
+				if(getSelections().length ==0) {
+					alert("请选择一条数据！");
+					return false;
+				}
+				return true;
+			}
 		});
 	</script>
 </body>

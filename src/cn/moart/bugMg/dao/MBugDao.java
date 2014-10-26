@@ -2,7 +2,9 @@ package cn.moart.bugMg.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -23,22 +25,28 @@ public class MBugDao {
 	}
 
 	/**
-	 * 检索所有的User
+	 * get all bugs
 	 */
-	public List<MBug> getAll() {
+	public List<Map<String,Object>> getAll() {
 		String sql = "select id, name, content from m_bug";
 
 		// Maps a SQL result to a Java object
-		RowMapper<MBug> mapper = new RowMapper<MBug>() {
-			public MBug mapRow(ResultSet rs, int rowNum) throws SQLException {
-				MBug bug = new MBug();
-				bug.setId(rs.getInt("id"));
-				bug.setName(rs.getString("name"));
-				bug.setContent(rs.getString("content"));
+		RowMapper<Map<String, Object>> mapper = new RowMapper<Map<String, Object>>() {
+			public Map<String, Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Map<String,Object> bug = new HashMap<String,Object>();
+				bug.put("id", rs.getInt("id"));
+				bug.put("name", rs.getString("name"));
+				bug.put("content", rs.getString("content"));
 				return bug;
 			}
 		};
-
 		return jdbcTemplate.query(sql, mapper);
+	}
+	
+	
+	public Map<String, Object> getMBugById(int id) {
+		String sql = "select id, name, content from m_bug where id=?";
+		Object[] parameters = new Object[] { id };
+		return jdbcTemplate.queryForMap(sql,parameters);
 	}
 }
