@@ -49,4 +49,11 @@ public class MBugDao {
 		Object[] parameters = new Object[] { id };
 		return jdbcTemplate.queryForMap(sql,parameters);
 	}
+
+	public void bugAdd(String name, String content, int userid) {
+		String sql = "insert into m_bug(name, content, createdby, action) values "
+				+ "(?, ?, ?, ?)";
+		Object[] parameters = new Object[] { name, content, userid, 1};
+		jdbcTemplate.update(sql, parameters);
+	}
 }

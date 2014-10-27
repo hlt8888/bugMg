@@ -24,4 +24,9 @@ public class MBugService {
 	public Map<String, Object> getMBugById(int id) {
 		return dao.getMBugById(id);
 	}
+
+	public void bugAdd(String name, String content, int userid) {
+		// TODO Auto-generated method stub
+		dao.bugAdd(name, content, userid);
+	}
 }

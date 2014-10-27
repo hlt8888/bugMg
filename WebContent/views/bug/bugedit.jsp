@@ -11,11 +11,11 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
-<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
-<script type="text/javascript" src="/easyui/jquery.min.js"></script>
-<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css" />
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
 <style type="text/css">
 table ._right {
 	text-align: right;
