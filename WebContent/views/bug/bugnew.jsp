@@ -30,26 +30,10 @@
 						</td>
 						<td style="width:100px;">Who Repair:</td>
 	                    <td>
-	                        <select class="easyui-combobox" name="language">
-	                        	<option value="ar">Arabic</option>
-	                        	<option value="bg">Bulgarian</option>
-	                        	<option value="ca">Catalan</option>
-	                        	<option value="zh-cht">Chinese Traditional</option>
-	                        	<option value="cs">Czech</option>
-	                        	<option value="da">Danish</option>
-	                        	<option value="nl">Dutch</option>
-	                        	<option value="en" selected="selected">English</option>
-	                        	<option value="et">Estonian</option>
-	                        	<option value="fi">Finnish</option>
-	                        	<option value="fr">French</option>
-	                        	<option value="de">German</option>
-	                        	<option value="el">Greek</option>
-	                        	<option value="ht">Haitian Creole</option>
-	                        	<option value="he">Hebrew</option>
-	                        	<option value="hi">Hindi</option>
-	                        	<option value="mww">Hmong Daw</option>
-	                        	<option value="hu">Hungarian</option>
-	                        	<option value="id">Indonesian</option>
+	                        <select class="easyui-combobox" name="repair">
+								<c:forEach items="${requestScope.listuser}" var="user" varStatus="status">
+									<option value="${user.id}"> ${user.name }</option>
+								</c:forEach>
 	                        </select>
 	                    </td>
 					</tr>
@@ -73,6 +57,13 @@
 		function clearForm() {
 			$('#new_bug').form('clear');
 		}
+		$(document).ready(function(){
+			CKEDITOR.replace( 'editor1', {
+			    filebrowserBrowseUrl: '/browser/browse.php',
+			    filebrowserUploadUrl: '/uploader/upload.php'
+			});
+		});
+		
 	</script>
 </body>
 </html>

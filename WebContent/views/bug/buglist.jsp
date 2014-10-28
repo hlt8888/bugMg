@@ -43,7 +43,7 @@
 						text: "新建",
 						iconCls: "icon-add",
 						handler: function(){
-							window.parent.addTab("Add new Bug",window.parent._url+"/views/bug/bugnew.jsp");
+							window.parent.addTab("Add new Bug",window.parent._url+"/views/bug/tonew_bug");
 						}
 					},
 					{

@@ -35,4 +35,9 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+//	config.filebrowserBrowseUrl='/browser/browse';
+//	config.filebrowserUploadUrl='/ckeditor/uploadFile';
+	config.filebrowserUploadUrl = '/fileUpload.shtml?type=Files&filePath=ckeditor';//上传文件的保存路径
+	config.filebrowserImageUploadUrl = '/fileUpload.shtml?type=Images&filePath=ckeditor';//上传图片的保存路径
+	config.filebrowserFlashUploadUrl = '/fileUpload.shtml?type=Flash&filePath=ckeditor';//上传flash的保存路径
 };

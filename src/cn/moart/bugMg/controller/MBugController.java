@@ -11,13 +11,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.moart.bugMg.bean.MUser;
 import cn.moart.bugMg.service.MBugService;
+import cn.moart.bugMg.service.MUserService;
 
 @Controller
 public class MBugController {
 	@Autowired
 	private MBugService service;
-
+	@Autowired
+	private MUserService userService;
 	@RequestMapping("/views/bug/bugs")
 	public @ResponseBody
 	List<Map<String, Object>> getAllUser(HttpSession session) {
@@ -47,6 +50,13 @@ public class MBugController {
 		}
 		userid = (Integer)user.get("id");
 		service.bugAdd(name, content, userid);
-		return "/views/bug/bug/buglist";
+		return "/views/bug/buglist";
+	}
+	
+	@RequestMapping("/views/bug/tonew_bug")
+	public String toNewbug(ModelMap model){
+		List<MUser> listuser = userService.getAll();
+		model.addAttribute("listuser", listuser);
+		return "/views/bug/bugnew";
 	}
 }
