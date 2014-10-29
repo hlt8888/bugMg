@@ -53,16 +53,12 @@
 	<script>
 		function submitForm() {
 			$('#new_bug').form('submit');
+			window.parent.addTab("未修复bug","/views/bug/buglist.jsp","");
+			
 		}
 		function clearForm() {
 			$('#new_bug').form('clear');
 		}
-		$(document).ready(function(){
-			CKEDITOR.replace( 'editor1', {
-			    filebrowserBrowseUrl: '/browser/browse.php',
-			    filebrowserUploadUrl: '/uploader/upload.php'
-			});
-		});
 		
 	</script>
 </body>

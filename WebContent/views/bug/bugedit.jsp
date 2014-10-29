@@ -16,66 +16,41 @@
 <link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css" />
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
-<style type="text/css">
-table ._right {
-	text-align: right;
-}
-</style>
+<script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
 </head>
-<body style="overflow: hidden;">
+<body style="overflow: auto;">
+	<input type="hidden" id="bug_id" value="${bug.id }" />
 	<div class="easyui-panel" title="Bug Info" style="display: inline;  float: left;">
 		<div style="padding: 10px 60px 20px 60px">
-			<form id="ff" method="post">
-				<table cellpadding="5">
-					<tr>
-						<td class="_right">Name:</td>
-						<td><input class="easyui-textbox" type="text" name="name"
-							data-options="required:true" value="${bug.name }"></input></td>
-					</tr>
-					<tr>
-						<td class="_right">Content:</td>
-						<td><input class="easyui-textbox" name="message"
-							data-options="multiline:true" style="height: 60px" value="${bug.content }"></input></td>
-					</tr>
-				</table>
-			</form>
-			<div style="text-align: center; padding: 5px">
-				<a href="javascript:void(0)" class="easyui-linkbutton"
-					onclick="submitForm()">Submit</a> <a href="javascript:void(0)"
-					class="easyui-linkbutton" onclick="clearForm()">Clear</a>
-			</div>
+				${bug.content }
 		</div>
 	</div>
-	<div class="easyui-panel" title="Bug Messges"  style="display: inline; float: left;">
-		<div style="padding: 10px 60px 20px 60px">
-			<form id="ff" method="post">
-				<table cellpadding="5">
-					<tr>
-						<td class="_right">Name:</td>
-						<td><input class="easyui-textbox" type="text" name="name"
-							data-options="required:true" value="${bug.name }"></input></td>
-					</tr>
-					<tr>
-						<td class="_right">Content:</td>
-						<td><input class="easyui-textbox" name="message"
-							data-options="multiline:true" style="height: 60px" value="${bug.content }"></input></td>
-					</tr>
-				</table>
-			</form>
-			<div style="text-align: center; padding: 5px">
-				<a href="javascript:void(0)" class="easyui-linkbutton"
-					onclick="submitForm()">Submit</a> <a href="javascript:void(0)"
-					class="easyui-linkbutton" onclick="clearForm()">Clear</a>
-			</div>
+	<div class="easyui-panel" title="Messages" style="display: inline; float: left;">
+		<div>sdfsdfsdfsdfsfsdfdf</div>
+	</div>
+	<div>
+		<textarea class="ckeditor" cols="80" id="content" name="content" rows="10"></textarea>
+		<div style="text-align: center; padding: 5px">
+			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitMessage()">SubmitMessage</a> 
 		</div>
 	</div>
 	<script>
-		function submitForm() {
-			$('#ff').form('submit');
+		function submitMessage() {
+			var $_c = CKEDITOR.instances.content.getData(); //获取textarea的值
+			console.log($_c);
+			CKEDITOR.instances.content.setData(null);
 		}
-		function clearForm() {
-			$('#ff').form('clear');
-		}
+		
+		$(document).ready(function(){
+			var bug_id = $('#bug_id').val();
+			$.ajax({
+				type : "get",
+				url : "/aj/bug/getmessages",
+				data : "bug_id=" + bug_id,
+				success : function(data) {
+				}
+			});
+		});
 	</script>
 </body>
 </html>

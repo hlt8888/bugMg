@@ -11,7 +11,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.moart.bugMg.bean.MBug;
 import cn.moart.bugMg.bean.MUser;
+import cn.moart.bugMg.bean.PageBean;
 import cn.moart.bugMg.service.MBugService;
 import cn.moart.bugMg.service.MUserService;
 
@@ -23,12 +25,14 @@ public class MBugController {
 	private MUserService userService;
 	@RequestMapping("/views/bug/bugs")
 	public @ResponseBody
-	List<Map<String, Object>> getAllUser(HttpSession session) {
+	List<Map<String, Object>> getAllUser(PageBean page, HttpSession session) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
 		List<Map<String, Object>> list = null;
 		if(user != null){
-			list = service.getAll();
+			page.setBegin();
+			page.setEnd();
+			list = service.getAll(page);
 		}
 		return list;
 	}
@@ -42,15 +46,20 @@ public class MBugController {
 	}
 	
 	@RequestMapping("/views/bug/add")
-	public String bugAdd(String name, String content, HttpSession session){
+	public String bugAdd(MBug bug, HttpSession session){
 		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
 		int userid = 0;
 		if(user == null){
 			return null;
 		}
+		if(bug.getName() == null || bug.getContent() == null){
+			return "redirect:/views/bug/tonew_bug";
+		}
 		userid = (Integer)user.get("id");
-		service.bugAdd(name, content, userid);
-		return "/views/bug/buglist";
+		bug.setCreatedby(userid);
+		bug.setAction("1");
+		service.bugAdd(bug);
+		return "redirect:/views/bug/tonew_bug";
 	}
 	
 	@RequestMapping("/views/bug/tonew_bug")
@@ -58,5 +67,11 @@ public class MBugController {
 		List<MUser> listuser = userService.getAll();
 		model.addAttribute("listuser", listuser);
 		return "/views/bug/bugnew";
+	}
+	
+	@RequestMapping("/aj/bug/getmessages")
+	public @ResponseBody String getMessageByBugid(int bug_id){
+		
+		return null;
 	}
 }
