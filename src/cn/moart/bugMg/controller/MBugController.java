@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.moart.bugMg.bean.MBug;
 import cn.moart.bugMg.bean.MUser;
 import cn.moart.bugMg.bean.PageBean;
+import cn.moart.bugMg.bean.QueryBugBean;
 import cn.moart.bugMg.service.MBugService;
 import cn.moart.bugMg.service.MUserService;
 
@@ -25,23 +26,22 @@ public class MBugController {
 	private MUserService userService;
 	@RequestMapping("/views/bug/bugs")
 	public @ResponseBody
-	List<Map<String, Object>> getAllUser(PageBean page, HttpSession session) {
+	PageBean getAllUser(QueryBugBean query, HttpSession session) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
-		List<Map<String, Object>> list = null;
+		PageBean page = null;
 		if(user != null){
-			page.setBegin();
-			page.setEnd();
-			list = service.getAll(page);
+			page = service.getAll(query);
 		}
-		return list;
+		return page;
 	}
 	
 	@RequestMapping("/views/bug/bugedit")
 	public String bugEdit(int id, ModelMap model, HttpSession session) {
-		System.out.println("id:"+id);
+		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
 		Map<String, Object> bug = service.getMBugById(id);
 		model.addAttribute("bug",bug);
+		model.addAttribute("userid",user.get("id"));
 		return "/views/bug/bugedit";
 	}
 	
@@ -70,8 +70,22 @@ public class MBugController {
 	}
 	
 	@RequestMapping("/aj/bug/getmessages")
-	public @ResponseBody String getMessageByBugid(int bug_id){
-		
-		return null;
+	public @ResponseBody List<Map<String,Object>> getMessageByBugid(int bug_id){
+		List<Map<String,Object>> list_message =  service.getMessagesByBugid(bug_id);
+		return list_message;
+	}
+	
+	@RequestMapping("/aj/bug/updatebug")
+	public @ResponseBody String updateBug(int bug_id, int action, int createdby, HttpSession session){
+		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
+		if(user==null){
+			return null;
+		}
+		int userid = (Integer) user.get("id");
+		if(userid != createdby){
+			return "NG";
+		}
+		System.out.println("bug_id:"+bug_id+";action:"+action+"createdby:"+createdby);
+		return "OK";
 	}
 }

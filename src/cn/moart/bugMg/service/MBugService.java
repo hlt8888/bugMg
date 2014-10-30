@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import cn.moart.bugMg.bean.MBug;
 import cn.moart.bugMg.bean.PageBean;
+import cn.moart.bugMg.bean.QueryBugBean;
 import cn.moart.bugMg.dao.MBugDao;
 
 @Service
@@ -18,8 +19,8 @@ public class MBugService {
 	/**
 	 * 检索所有的User
 	 */
-	public List<Map<String, Object>> getAll(PageBean page) {
-		return dao.getAll(page);
+	public PageBean getAll(QueryBugBean query) {
+		return dao.getAll(query);
 	}
 	
 	public Map<String, Object> getMBugById(int id) {
@@ -29,5 +30,9 @@ public class MBugService {
 	public void bugAdd(MBug bug) {
 		// TODO Auto-generated method stub
 		dao.bugAdd(bug);
+	}
+	
+	public List<Map<String,Object>> getMessagesByBugid(int bug_id) {
+		return dao.getMessagesByBugid(bug_id);
 	}
 }
