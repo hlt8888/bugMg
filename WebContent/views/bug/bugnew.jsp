@@ -30,11 +30,12 @@
 						</td>
 						<td style="width:100px;">Who Repair:</td>
 	                    <td>
-	                        <select class="easyui-combobox" name="repair">
-								<c:forEach items="${requestScope.listuser}" var="user" varStatus="status">
-									<option value="${user.id}"> ${user.name }</option>
-								</c:forEach>
-	                        </select>
+	                        <input class="easyui-combobox" name="repair" style="" data-options="
+				                loader: repair,
+				                mode: 'remote',
+				                valueField: 'id',
+				                textField: 'name'
+				            ">
 	                    </td>
 					</tr>
 					<tr>
@@ -51,9 +52,36 @@
 		</div>
 	</div>
 	<script>
+		var repair = function(param,success,error){
+	        var q = param.q || '';
+	        if (q.length <= 1){return false;}
+	        $.ajax({
+	            url: '/user/searchJSON',
+	            dataType: 'jsonp',
+	            data: {
+	                featureClass: "P",
+	                style: "full",
+	                maxRows: 20,
+	                name_startsWith: q
+	            },
+	            success: function(data){
+	                var items = $.map(data, function(item){
+	                    return {
+	                        id: item.id,
+	                        name: item.name
+	                    };
+	                });
+	                success(items);
+	            },
+	            error: function(){
+	                error.apply(this, arguments);
+	            }
+	        });
+	    };
 		function submitForm() {
+			window.location.href="/views/bug/buglist.jsp";
 			$('#new_bug').form('submit');
-			window.parent.addTab("未修复bug","/views/bug/buglist.jsp","");
+			//window.parent.addTab("未修复bug","/views/bug/buglist.jsp","");
 			
 		}
 		function clearForm() {

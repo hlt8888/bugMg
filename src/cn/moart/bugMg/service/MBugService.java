@@ -35,4 +35,8 @@ public class MBugService {
 	public List<Map<String,Object>> getMessagesByBugid(int bug_id) {
 		return dao.getMessagesByBugid(bug_id);
 	}
+	
+	public void updateBug(Map<String, String> map_set, Map<String, String> map_where){
+		dao.updateBug(map_set, map_where);
+	}
 }

@@ -1,5 +1,6 @@
 package cn.moart.bugMg.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class MBugController {
 		bug.setCreatedby(userid);
 		bug.setAction("1");
 		service.bugAdd(bug);
-		return "redirect:/views/bug/tonew_bug";
+		return "OK";
 	}
 	
 	@RequestMapping("/views/bug/tonew_bug")
@@ -85,7 +86,13 @@ public class MBugController {
 		if(userid != createdby){
 			return "NG";
 		}
-		System.out.println("bug_id:"+bug_id+";action:"+action+"createdby:"+createdby);
+		
+		Map<String, String> map_set 	= new HashMap<String, String> ();
+		Map<String, String> map_where 	= new HashMap<String, String> ();
+		map_set.put("action", String.valueOf(action));
+		map_where.put("id", String.valueOf(bug_id));
+		map_where.put("createdby", String.valueOf(createdby));
+		service.updateBug(map_set, map_where);
 		return "OK";
 	}
 }

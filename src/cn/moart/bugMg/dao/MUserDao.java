@@ -94,4 +94,30 @@ public class MUserDao {
 
 	}
 
+	public List<MUser> autoComUserInfo(int maxRows, String name_startsWith) {
+//		String sql_fields = "select id, name, content ";
+//		String sql_from = " from m_user ";
+//		StringBuffer sql_where = null;
+        
+        StringBuffer sql = new StringBuffer();
+        sql.append("select id, name,email ");
+        sql.append(" from m_user ");
+        sql.append("where name like '%"+name_startsWith+"%' ");
+        sql.append(" limit 0,"+maxRows);
+        
+        // Maps a SQL result to a Java object
+ 		RowMapper<MUser> mapper = new RowMapper<MUser>() {
+ 			public MUser mapRow(ResultSet rs, int rowNum) throws SQLException {
+ 				MUser user = new MUser();
+ 				user.setId(rs.getInt("id"));
+ 				user.setName(rs.getString("name"));
+ 				user.setEmail(rs.getString("email"));
+ 				return user;
+ 			}
+ 		};
+ 		System.out.println(sql);
+		Object[] params = {};
+		return jdbcTemplate.query(sql.toString(),mapper, params);
+	}
+
 }

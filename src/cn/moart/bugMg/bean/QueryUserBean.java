@@ -1,15 +1,15 @@
 package cn.moart.bugMg.bean;
 
-public class QueryBugBean {
+public class QueryUserBean {
 	Integer page;
 	Integer rows;
-	Integer action;
+	Integer name;
 	
-	public Integer getAction() {
-		return action;
+	public Integer getName() {
+		return name;
 	}
-	public void setAction(int action) {
-		this.action = action;
+	public void setName(int name) {
+		this.name = name;
 	}
 	public Integer getPage() {
 		return page;

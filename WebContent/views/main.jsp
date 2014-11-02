@@ -41,19 +41,19 @@
 								"menuid" : "11",
 								"menuname" : "未修复Bug",
 								"icon" : "icon-log",
-								"url" : _url+"/views/bug/buglist.jsp"
+								"url" : _url+"/views/bug/buglist.jsp?action=1"
 							},
 							{
 								"menuid" : "12",
 								"menuname" : "修复中Bug",
 								"icon" : "icon-log",
-								"url" : "/"
+								"url" : "/views/bug/buglist.jsp?action=2"
 							},
 							{
 								"menuid" : "13",
 								"menuname" : "已修复Bug",
 								"icon" : "icon-log",
-								"url" : "/"
+								"url" : "/views/bug/buglist.jsp?action=3"
 							} ]
 				},
 				{
@@ -97,6 +97,19 @@
 	<div id="mainPanle" data-options="region:'center'" style="">
 		<div  id="tabs" class="easyui-tabs" data-options='fit:true,border:false'  style="width: 100%; height: 100%;overflow:auto;">
 		</div>
+	</div>
+	
+	<div id="mm" class="easyui-menu" style="width:150px;">
+		<div id="mm-tabupdate">刷新</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabclose">关闭</div>
+		<div id="mm-tabcloseall">全部关闭</div>
+		<div id="mm-tabcloseother">除此之外全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabcloseright">当前页右侧全部关闭</div>
+		<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="mm-exit">退出</div>
 	</div>
 </body>
 </html>

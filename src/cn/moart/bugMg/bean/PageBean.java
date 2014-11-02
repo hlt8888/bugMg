@@ -60,7 +60,11 @@ public class PageBean {
 		if (currentPageNo < 1) {
 			this.currentPageNo = 1;
 		} else if (currentPageNo > totalPages) {
-			this.currentPageNo = totalPages;
+			if(currentPageNo == 1){
+				this.currentPageNo = 1;
+			} else {
+				this.currentPageNo = totalPages;
+			}
 		} else {
 			this.currentPageNo = currentPageNo;
 		}

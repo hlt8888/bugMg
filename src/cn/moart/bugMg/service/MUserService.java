@@ -22,4 +22,9 @@ public class MUserService {
 		System.out.println("userlist,cache");
 		return dao.getAll();
 	}
+
+	public List<MUser> autoComUserInfo(int maxRows, String name_startsWith) {
+		List<MUser> list = dao.autoComUserInfo(maxRows, name_startsWith);
+		return list;
+	}
 }

@@ -56,7 +56,7 @@ public class MBugDao {
 		sql.append(sql_set);
 		sql.append(sql_where);
 		
-		jdbcTemplate.update(sql.toString(), parms);
+		jdbcTemplate.update(sql.toString(), parms.toArray());
 	}
 //Update end
 	

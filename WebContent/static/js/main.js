@@ -80,6 +80,7 @@ function addTab(subtitle,url,icon){
 		}
 	}
 	
+	$('#tabs').tabs('close',subtitle);
 	if(!$('#tabs').tabs('exists',subtitle)){
 		$('#tabs').tabs('add',{
 			title:subtitle,

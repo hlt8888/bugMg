@@ -21,8 +21,8 @@ public class DaoUtil {
     		if(i==1){
     			sql_where.append(" where ");
     		}
-    		sql_where.append(" "+field+"=?");
-    		if(fieldValMap.entrySet().size()-1 < i){
+    		sql_where.append(" "+field+"=? ");
+    		if(fieldValMap.entrySet().size() > i){
     			sql_where.append("and");
     		}
     		parms.add(val);

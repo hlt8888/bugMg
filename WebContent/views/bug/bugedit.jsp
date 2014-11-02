@@ -77,7 +77,7 @@
 			var bug_id = $('#bug_id').val();
 			var createdby = $('#createdby').val();
 			var userid = $('#userid').val();
-			var action = $('#action').val();
+			var action = $('#action').combobox("getValue");
 			if(userid != createdby){
 				alert("只有创建者才有权限进行状态更新！");
 			} else {

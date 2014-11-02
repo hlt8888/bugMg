@@ -17,13 +17,83 @@
 <link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css" />
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
+<style scoped="scoped">
+.textbox {
+	height: 20px;
+	margin: 0;
+	padding: 0 2px;
+	box-sizing: content-box;
+}
+</style>
 </head>
 <body style="overflow: hidden;">
 
 	<table id="list_table"></table>
-
+	<div id="search" class="easyui-window" title="Bug Search" data-options="iconCls:'icon-save',closed:true"
+		style="width: 400px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" data-options="fit:true">
+			<div data-options="region:'center'" style="padding: 10px;">
+				<table cellpadding="5">
+					<tr>
+						<td>Bug Name:</td>
+						<td><input class="easyui-validatebox textbox" /></td>
+					</tr>
+					<tr>
+						<td>CreatedDate:</td>
+						<td><input class="easyui-datebox textbox"></td>
+					</tr>
+					<tr>
+						<td>CreatedBy:</td>
+						<td>
+							<input class="easyui-combobox" style="" data-options="
+				                loader: createdbyloader,
+				                mode: 'remote',
+				                valueField: 'id',
+				                textField: 'name'
+				            ">
+	            		</td>
+					</tr>
+				</table>
+			</div>
+			<div data-options="region:'south',border:false"
+				style="text-align: right; padding: 5px 0 0;">
+				<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'"
+					href="javascript:void(0)" onclick="javascript:alert('ok')"
+					style="width: 80px">Ok</a>
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript">
+		var createdbyloader = function(param,success,error){
+	        var q = param.q || '';
+	        if (q.length <= 1){return false;}
+	        $.ajax({
+	            url: '/user/searchJSON',
+	            dataType: 'jsonp',
+	            data: {
+	                featureClass: "P",
+	                style: "full",
+	                maxRows: 20,
+	                name_startsWith: q
+	            },
+	            success: function(data){
+	                var items = $.map(data, function(item){
+	                    return {
+	                        id: item.id,
+	                        name: item.name
+	                    };
+	                });
+	                success(items);
+	            },
+	            error: function(){
+	                error.apply(this, arguments);
+	            }
+	        });
+	    };
+	    
 		$(document).ready(function(){
+			var action = Util.getUrlParam('action');
 			$('#list_table').datagrid({
 				pagination: true,
 				rownumbers: true,
@@ -32,6 +102,7 @@
 				height:"100%",
 				// toolbar:'#toolbar',
 				url:'/views/bug/bugs',
+				queryParams: {action: action}, //额外的参数
 				columns:[[
 					{field:'id', title:'ID',width:200},
 					{field:'name',title:'BugName',width:200},
@@ -51,32 +122,23 @@
 						text: "展开",
 						iconCls: "layout-button-right",
 						handler: function(){
-							if(idsIsChecked()) {
-								var ids = getSelections();
+							if(Util.idsIsChecked()) {
+								var ids = Util.getSelections();
 								window.parent.addTab(ids[0]+"bug_show",window.parent._url+"/views/bug/bugedit?id="+ids[0]);
 							}
 						}
-					}
+					},
+					{
+		                id: 'chaxun',
+		                text: '查询',
+		                iconCls: 'icon-search',
+		                handler: function() {
+		                	$('#search').window('open');
+		                    //$('#name').focus();
+		                }
+		            }
 				]
 			});
-
-			var getSelections = function() {
-				var ids = [];
-				var rows = $('#list_table').datagrid('getSelections');
-				for(var i = 0; i < rows.length; i++) {
-					ids.push(rows[i].id);
-				}
-
-				return ids;
-			}
-
-			var idsIsChecked = function() {
-				if(getSelections().length ==0) {
-					alert("请选择一条数据！");
-					return false;
-				}
-				return true;
-			}
 		});
 	</script>
 </body>
