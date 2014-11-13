@@ -25,6 +25,7 @@ public class LoginController {
 		if(map!=null){
 			rs.put("flag", "OK");
 			session.setAttribute("user", map);
+			session.setMaxInactiveInterval(-1); 	//set session naver timeout 
 		} else {
 			rs.put("flag", "NG");
 		}
