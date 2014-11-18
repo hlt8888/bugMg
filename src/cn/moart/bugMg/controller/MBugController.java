@@ -60,7 +60,7 @@ public class MBugController {
 		bug.setCreatedby(userid);
 		bug.setAction("1");
 		service.bugAdd(bug);
-		return "OK";
+		return "/views/bug/buglist";
 	}
 	
 	@RequestMapping("/views/bug/tonew_bug")
