@@ -17,7 +17,7 @@ public class MBugService {
 	private MBugDao dao;
 	
 	/**
-	 * 检索所有的User
+	 * 检索所有的Bug
 	 */
 	public PageBean getAll(QueryBugBean query) {
 		return dao.getAll(query);

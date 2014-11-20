@@ -66,9 +66,9 @@ public class MBugDao {
 	 */
 	public PageBean getAll(QueryBugBean query) {
 		StringBuffer sql_total = new StringBuffer();
-		sql_total.append("select count(id) as total ");
-		String sql_fields = "select id, name, content ";
-		String sql_from = " from m_bug ";
+		sql_total.append("select count(m_bug.id) as total ");
+		String sql_fields = "select m_bug.id as id, m_bug.name as name , m_user.name as repair ";
+		String sql_from = " from m_bug left join m_user on m_bug.repair = m_user.id ";
 		StringBuffer sql_where = null;
 		List<String> parms = null;
 		Map<String, String> fieldValMap = BeanRefUtil  
@@ -95,7 +95,7 @@ public class MBugDao {
 				Map<String,Object> bug = new HashMap<String,Object>();
 				bug.put("id", rs.getInt("id"));
 				bug.put("name", rs.getString("name"));
-				bug.put("content", rs.getString("content"));
+				bug.put("repair", rs.getString("repair"));
 				return bug;
 			}
 		};
@@ -108,9 +108,10 @@ public class MBugDao {
 	public Map<String, Object> getMBugById(int id) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select m_bg.id, m_bg.name, m_bg.content, m_u.name as username,"
-				+ "m_bg.createddate, m_bg.action, m_bg.createdby ");
+				+ "m_bg.createddate, m_bg.action, m_bg.createdby,m_u2.name as repair ");
 		sql.append(" from m_bug m_bg");
 		sql.append(" left join m_user m_u on m_bg.createdby = m_u.id ");
+		sql.append(" left join m_user m_u2 on m_bg.repair = m_u2.id ");
 		sql.append(" where m_bg.id = ? order by createddate desc ");
 		Object[] parameters = new Object[] { id };
 		return jdbcTemplate.queryForMap(sql.toString(),parameters);

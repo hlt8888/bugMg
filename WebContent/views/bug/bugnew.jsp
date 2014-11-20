@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE>
 <html>
 <head>
 <title>Add a Bug</title>
@@ -21,16 +21,18 @@
 <body style="overflow: hidden;">
 	<div class="easyui-panel" title="New Bug Info" style="display: inline;  float: left;">
 		<div style="padding: 10px 60px 20px 60px">
-			<form id="new_bug" method="post" action="/views/bug/add">
+			<form id="new_bug" method="post" >
+				<input type="hidden" name="action" value="1" />
+				<input type="hidden" name="id" value="0" />
 				<table cellpadding="5" style="width:95%;">
 					<tr>
 						<td style="width:50px;">Name:</td>
 						<td>
-							<input class="easyui-textbox" type="text" name="name" data-options="required:true" value="${bug.name }" />
+							<input class="easyui-textbox" type="text" id="name" name="name" data-options="required:true" value="" />
 						</td>
 						<td style="width:100px;">Who Repair:</td>
 	                    <td>
-	                        <input class="easyui-combobox" name="repair" style="" data-options="
+	                        <input class="easyui-combobox" id="repair" name="repair" style="" data-options="
 				                loader: repair,
 				                mode: 'remote',
 				                valueField: 'id',
@@ -43,12 +45,11 @@
 							<textarea class="ckeditor" cols="80" id="content" name="content" rows="10"></textarea>
 						</td>
 					</tr>
+					<tr>
+	                    <td colspan="4"><input type="submit" value="Submit"></input></td>
+	                </tr>
 				</table>
 			</form>
-			<div style="text-align: center; padding: 5px">
-				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a> 
-				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
-			</div>
 		</div>
 	</div>
 	<script>
@@ -79,15 +80,37 @@
 	        });
 	    };
 		function submitForm() {
-			window.location.href="/views/bug/buglist.jsp";
 			$('#new_bug').form('submit');
-			//window.parent.addTab("未修复bug","/views/bug/buglist.jsp","");
-			
 		}
 		function clearForm() {
 			$('#new_bug').form('clear');
 		}
 		
+		$(function(){
+			$('#new_bug').form({
+			    url:'/views/bug/add',
+			    onSubmit: function(){
+			    	var content = CKEDITOR.instances.content.getData(); //获取textarea的值
+			    	var name = $('#name').val(), repair = $("[name='repair']").val();
+			    	if( !content || !name || !repair ) {
+			    		window.parent.msgShow("错误","请把信息填写完整后再提交！","error");
+			    		return false;
+			    	}
+			    },
+			    success:function(data){
+			    	var _data = JSON.parse(data);
+			    	if(_data.flag==="OK"){
+			    		window.parent.msgShow( _data.title, _data.msg, _data.msgType );
+			    	} else {
+			    		window.parent.msgShow( _data.title, _data.msg, _data.msgType );
+			    		return false;
+			    	}
+			    	
+			    	window.parent.addTab("未修复Bug",window.parent._url+"/views/bug/buglist.jsp?action=1");
+			        window.parent.closeTab("Add new Bug");
+			    }
+			});
+		});
 	</script>
 </body>
 </html>

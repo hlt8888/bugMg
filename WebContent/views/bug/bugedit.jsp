@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE>
 <html>
 <head>
 <title>bug编辑页</title>
@@ -30,7 +30,7 @@
 					<td style="width:330px;">
 						<input class="easyui-textbox" disabled type="text" name="name" data-options="required:true" value="${bug.name }" />
 					</td>
-					<td style="width:100px;">Who Repair:</td>
+					<td style="width:100px;">Status:</td>
                     <td>
                         <select class="easyui-combobox" name="action" id="action">
                         	<option value=""></option>
@@ -49,6 +49,12 @@
 					<td style="width:330px;">
 						<input class="easyui-textbox" disabled type="text" name="createddate" data-options="required:true" value="${bug.createddate }" />
 					</td>
+				</tr>
+				<tr>
+					<td style="width:50px;">RepairBy:</td>
+					<td style="width:330px;">
+						<input class="easyui-textbox" disabled type="text" name="username" data-options="required:true" value="${bug.repair }" />
+					</td>
                     <td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateBug()">Save</a> </td>
 				</tr>
 			</table>
@@ -57,7 +63,6 @@
 				${bug.content }
 		</div>
 		<div class="messages" id="messages">
-			<div>sdfsdfsdfsdfsfsdfdf</div>
 		</div>
 	</div>
 	<div style="display:none;">
@@ -79,14 +84,19 @@
 			var userid = $('#userid').val();
 			var action = $('#action').combobox("getValue");
 			if(userid != createdby){
-				alert("只有创建者才有权限进行状态更新！");
+				window.parent.msgShow("错误","只有创建者才有权限进行状态更新！","error");
 			} else {
 				$.ajax({
 					type : "get",
 					url : "/aj/bug/updatebug",
 					data : "bug_id=" + bug_id+"&action="+action+"&createdby="+createdby,
 					success : function(data) {
-						alert(data);
+						if(data === "OK"){
+							window.parent.msgShow("Save","保存成功！","info");
+						} else {
+							window.parent.msgShow("错误","保存失败！","error");
+						}
+						
 					}
 				});
 			}

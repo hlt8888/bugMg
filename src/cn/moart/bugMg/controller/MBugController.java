@@ -27,7 +27,7 @@ public class MBugController {
 	private MUserService userService;
 	@RequestMapping("/views/bug/bugs")
 	public @ResponseBody
-	PageBean getAllUser(QueryBugBean query, HttpSession session) {
+	PageBean getAllBug(QueryBugBean query, HttpSession session) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
 		PageBean page = null;
@@ -47,20 +47,29 @@ public class MBugController {
 	}
 	
 	@RequestMapping("/views/bug/add")
-	public String bugAdd(MBug bug, HttpSession session){
+	public @ResponseBody Map<String, String> bugAdd(MBug bug, HttpSession session){
 		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
+		Map<String, String> map = new HashMap<String, String> ();
 		int userid = 0;
 		if(user == null){
 			return null;
 		}
 		if(bug.getName() == null || bug.getContent() == null){
-			return "redirect:/views/bug/tonew_bug";
+			map.put("flag", "NG");
+			map.put("title", "错误");
+			map.put("msgType", "error");
+			map.put("msg", "请登录后再进行操作！");
+			return map;
 		}
 		userid = (Integer)user.get("id");
 		bug.setCreatedby(userid);
 		bug.setAction("1");
 		service.bugAdd(bug);
-		return "/views/bug/buglist";
+		map.put("flag", "OK");
+		map.put("title", "Save");
+		map.put("msgType", "info");
+		map.put("msg", "保存成功！");
+		return map;
 	}
 	
 	@RequestMapping("/views/bug/tonew_bug")

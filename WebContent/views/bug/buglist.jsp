@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE>
 <html>
 <head>
 <title>bug列表</title>
@@ -93,20 +93,22 @@
 	    };
 	    
 		$(document).ready(function(){
-			var action = Util.getUrlParam('action');
+			var action = Util.getUrlParam('action') || 1;
+			var queryParams = {};
+			queryParams.action = action;
 			$('#list_table').datagrid({
 				pagination: true,
 				rownumbers: true,
 				fitColumns: true,
 				singleSelect: true,
+				fit: true,
 				height:"100%",
-				// toolbar:'#toolbar',
 				url:'/views/bug/bugs',
-				queryParams: {action: action}, //额外的参数
+				queryParams: queryParams, //额外的参数
 				columns:[[
 					{field:'id', title:'ID',width:200},
 					{field:'name',title:'BugName',width:200},
-					{field:'content',title:'BugContent',width:500}
+					{field:'repair',title:'RepairBy',width:500}
 				]],
 				toolbar: [
 					{
@@ -114,7 +116,7 @@
 						text: "新建",
 						iconCls: "icon-add",
 						handler: function(){
-							window.parent.addTab("Add new Bug",window.parent._url+"/views/bug/tonew_bug");
+							window.parent.mainPage.addTab( "Add new Bug", "/views/bug/tonew_bug" );
 						}
 					},
 					{
@@ -124,7 +126,7 @@
 						handler: function(){
 							if(Util.idsIsChecked()) {
 								var ids = Util.getSelections();
-								window.parent.addTab(ids[0]+"bug_show",window.parent._url+"/views/bug/bugedit?id="+ids[0]);
+								window.parent.mainPage.addTab( ids[0]+"bug_show", "/views/bug/bugedit?id="+ids[0] );
 							}
 						}
 					},
@@ -134,7 +136,6 @@
 		                iconCls: 'icon-search',
 		                handler: function() {
 		                	$('#search').window('open');
-		                    //$('#name').focus();
 		                }
 		            }
 				]

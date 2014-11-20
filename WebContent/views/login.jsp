@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE>
 <html>
 <head>
 <title>请登录</title>
@@ -22,22 +22,22 @@
 		<div style="width: 40%; margin:0 auto; padding:200px 0;">
 		    <div class="easyui-panel" title="Login" style="width:400px">
 		        <div style="padding:10px 60px 20px 60px">
-		        <form id="login_fm" method="post" action="">
-		            <table cellpadding="5">
-		                <tr>
-		                    <td>Email:</td>
-		                    <td><input class="easyui-textbox" type="text" id="email" data-options="required:true,validType:'email'"></input></td>
-		                </tr>
-		                <tr>
-		                    <td>Password:</td>
-		                    <td><input class="easyui-textbox" type="password" id="pwd" data-options="required:true"></input></td>
-		                </tr>
-		            </table>
-		        </form>
-		        <div style="text-align:center;padding:5px">
-		            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="aj_login()">Submit</a>
-		            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
-		        </div>
+			        <form id="login_fm" method="post" action="">
+			            <table cellpadding="5">
+			                <tr>
+			                    <td>Email:</td>
+			                    <td><input  type="text" id="email" data-options="required:true,validType:'email'"></input></td>
+			                </tr>
+			                <tr>
+			                    <td>Password:</td>
+			                    <td><input type="password" id="pwd" data-options="required:true"></input></td>
+			                </tr>
+			            </table>
+			        </form>
+			        <div style="text-align:center;padding:5px">
+			            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="aj_login()">Submit</a>
+			            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+			        </div>
 		        </div>
 		    </div>
 	    </div>
@@ -46,6 +46,10 @@
 		function aj_login() {
 			var email = $('#email').val();
 			var pwd = $('#pwd').val();
+			if( !email || !pwd ) {
+				$.messager.alert("提醒", "用户名和密码不能为空！", "info");
+				return false;
+			}
 			$.ajax({
 				type : "POST",
 				url : "/views/login",
@@ -55,8 +59,8 @@
 					if(flag=="OK"){
 						window.location.href='/views/main.jsp';
 					} else {
-						alert("用户名或密码错误,请重新输入");
-						clearForm();
+						$.messager.alert("提醒", "用户名或密码错误,请重新输入！", "info");
+						//clearForm();
 					}
 				}
 			});
@@ -64,6 +68,16 @@
 		function clearForm() {
 			$('#login_fm').form('clear');
 		}
+		
+		$(function(){
+			$("#email").focus();
+			$(document).keypress(function(e){
+				// 回车事件
+				if( e.which == 13 ) {
+					aj_login();
+				}
+			});
+		});
 	</script>
 </body>
 </html>

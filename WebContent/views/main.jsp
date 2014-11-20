@@ -11,80 +11,40 @@
 		islogin = true;
 	}
 %>
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>BugManage</title>
-<link rel="stylesheet" type="text/css"
-	href="/static/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
-<link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/main.css">
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/static/js/fix.js"></script><!-- import this file for fixing two request bug -->
 <script type="text/javascript" src="/static/js/main.js"></script>
 <script type="text/javascript">
-	_url = "http://127.0.0.1:8080";
 	_islogin = <%=islogin%>;
 	if(!_islogin){
 		window.location.href = "/views/login.jsp";
 	}
-	var _menus = {
-		"menus" : [
-				{
-					"menuid" : "1",
-					"icon" : "icon-sys",
-					"menuname" : "Bug管理",
-					"menus" : [
-							{
-								"menuid" : "11",
-								"menuname" : "未修复Bug",
-								"icon" : "icon-log",
-								"url" : _url+"/views/bug/buglist.jsp?action=1"
-							},
-							{
-								"menuid" : "12",
-								"menuname" : "修复中Bug",
-								"icon" : "icon-log",
-								"url" : "/views/bug/buglist.jsp?action=2"
-							},
-							{
-								"menuid" : "13",
-								"menuname" : "已修复Bug",
-								"icon" : "icon-log",
-								"url" : "/views/bug/buglist.jsp?action=3"
-							} ]
-				},
-				{
-					"menuid" : "2",
-					"icon" : "icon-sys",
-					"menuname" : "项目成员列表",
-					"menus" : [
-							{
-								"menuid" : "21",
-								"menuname" : "正式员工",
-								"icon" : "icon-log",
-								"url" : "/"
-							},
-							{
-								"menuid" : "22",
-								"menuname" : "实习生",
-								"icon" : "icon-log",
-								"url" : "/"
-							}]
-				}
-		]
-	};
 </script>
 </head>
 <body class="easyui-layout">
 	<div data-options="region:'north',border:false" style="height: 60px; background: #B3DFDA; padding: 10px">
 		<%=msg %>
+		<div style="display: inline; float: right; padding-right: 20px;">
+			<a href="#" class="easyui-menubutton" data-options="menu:'#sys_menu',iconCls:'icon-help'">系统菜单</a>
+	    	<div id="sys_menu" style="width:100px;">
+	        	<div id="logout">退出</div>
+		        <div>重新登录</div>
+		        <div>About</div>
+		    </div>
+		</div>
 	</div>
 	<div data-options="region:'west',split:true,title:'West'"
 		style="width: 150px; padding: 10px;" id="west">
-		<div id="nav" class="easyui-accordion" data-options="fit:true,collapsed:true,border:false">
+		<div id="nav" class="easyui-accordion" data-options="fit:true,border:false">
 		<!--  导航内容自动加载 -->
 		</div>
 	</div>

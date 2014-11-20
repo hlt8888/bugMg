@@ -31,4 +31,12 @@ public class LoginController {
 		}
 		return rs;
 	}
+	
+	@RequestMapping("/views/logout")
+	public @ResponseBody String logout(HttpSession session) {
+		
+		session.removeAttribute("user");
+		
+		return "Log out OK !";
+	}
 }
