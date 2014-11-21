@@ -254,12 +254,61 @@
 				});
 			},
 			
+			initWebSocket: function() {
+				var _this = MainPage, ws = null,
+					target = "ws://192.168.1.99:8080/webSocketServer";
+				
+				if ( 'WebSocket' in window ) {
+					MainPage.ws = ws = new WebSocket( target );
+				} else if ( 'MozWebSocket' in window ) {
+					MainPage.ws = ws = new MozWebSocket( target );
+				} else {
+					MainPage.ws = ws = new SockJS("http://192.168.1.99:8080/sockjs/webSocketServer");
+					_this.msgShow( "提醒", "该浏览器不支持WebSocket，请选择Chrome、Firefox或高版本的IE等其他浏览器！", "info" );
+				}
+				
+				_this.initWsTime += 1;
+				
+				ws.onmessage = function( event ) {
+//					var data = JSON.parse( event.data );
+					_this.msgShow( "提醒", event.data, "info" );
+				};
+				
+				ws.onclose = function( event ) {
+					if ( _this.initWsTime < 2 ) {
+						// 先关闭已有的弹框
+						$('div.panel-tool-close').click();
+						
+						_this.msgShow('提示', '服务器已关闭，请暂停所有操作等待系统恢复！', 'warning')
+					}
+					
+//					setTimeout( _this.initWebSocket(), 5000 );
+				};
+				
+				ws.onopen = function( event ) {
+					if ( _this.initWsTime >= 2 ) {
+						// 重新连接后重新计数，从1开始
+						_this.initWsTime = 1;
+						
+						// 先关闭已有的弹框
+						$('div.panel-tool-close').click();
+						
+						_this.msgShow('提示', '服务器已恢复！', 'info');
+					}
+				};
+			},
+			
 			init: function() {
 				var _this = MainPage;
 				
+				// 初始化左侧菜单等页面碎片数据
 				_this.initPageMeta();
 				
+				// 初始化事件绑定
 				_this.initEvent();
+				
+				// 初始化webSocket
+				_this.initWebSocket();
 			}
 	};
 	$(document).ready(MainPage.init);

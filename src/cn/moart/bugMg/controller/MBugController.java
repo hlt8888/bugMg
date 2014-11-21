@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.TextMessage;
 
 import cn.moart.bugMg.bean.MBug;
 import cn.moart.bugMg.bean.MUser;
@@ -18,6 +19,7 @@ import cn.moart.bugMg.bean.PageBean;
 import cn.moart.bugMg.bean.QueryBugBean;
 import cn.moart.bugMg.service.MBugService;
 import cn.moart.bugMg.service.MUserService;
+import cn.moart.bugMg.websocket.SystemWebSocketHandler;
 
 @Controller
 public class MBugController {
@@ -74,6 +76,7 @@ public class MBugController {
 	
 	@RequestMapping("/views/bug/tonew_bug")
 	public String toNewbug(ModelMap model){
+		SystemWebSocketHandler.sendMessageToUsers(new TextMessage("ha ha ha"));
 		List<MUser> listuser = userService.getAll();
 		model.addAttribute("listuser", listuser);
 		return "/views/bug/bugnew";

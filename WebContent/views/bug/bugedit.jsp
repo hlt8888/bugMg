@@ -92,9 +92,9 @@
 					data : "bug_id=" + bug_id+"&action="+action+"&createdby="+createdby,
 					success : function(data) {
 						if(data === "OK"){
-							window.parent.msgShow("Save","保存成功！","info");
+							window.parent.mainPage.msgShow("Save","保存成功！","info");
 						} else {
-							window.parent.msgShow("错误","保存失败！","error");
+							window.parent.mainPage.msgShow("错误","保存失败！","error");
 						}
 						
 					}

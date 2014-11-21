@@ -17,6 +17,7 @@
 <link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css" />
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/static/js/fix.js"></script>
 <script type="text/javascript" src="/static/js/common.js"></script>
 <style scoped="scoped">
 .textbox {
@@ -136,6 +137,7 @@
 		                iconCls: 'icon-search',
 		                handler: function() {
 		                	$('#search').window('open');
+		                	window.parent.mainPage.ws.send("cha xun");
 		                }
 		            }
 				]

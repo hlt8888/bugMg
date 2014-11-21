@@ -100,14 +100,14 @@
 			    success:function(data){
 			    	var _data = JSON.parse(data);
 			    	if(_data.flag==="OK"){
-			    		window.parent.msgShow( _data.title, _data.msg, _data.msgType );
+			    		window.parent.mainPage.msgShow( _data.title, _data.msg, _data.msgType );
 			    	} else {
-			    		window.parent.msgShow( _data.title, _data.msg, _data.msgType );
+			    		window.parent.mainPage.msgShow( _data.title, _data.msg, _data.msgType );
 			    		return false;
 			    	}
 			    	
-			    	window.parent.addTab("未修复Bug",window.parent._url+"/views/bug/buglist.jsp?action=1");
-			        window.parent.closeTab("Add new Bug");
+			    	window.parent.mainPage.addTab("未修复Bug","/views/bug/buglist.jsp?action=1");
+			        window.parent.mainPage.closeTab("Add new Bug");
 			    }
 			});
 		});
