@@ -99,7 +99,7 @@
 				var _this = MainPage, icon = 'icon ';
 				$.each(_this._menus.menus, function(i, n) {
 					 $.each(n.menus, function(j, o) {
-					 	if(o.menuid==menuid){
+					 	if(o.id==menuid){
 							icon += o.icon;
 						}
 					 });
@@ -119,19 +119,26 @@
 			
 			initPageMeta: function() {
 				var _this = MainPage;
-				
+				$.ajax({
+					type : "POST",
+					url : "/menus",
+					async: false,
+					success : function(data) {
+						_this._menus = data;
+					}
+				});
 				$.each(_this._menus.menus, function(i, n) {
 					var menulist ='';
 					menulist +='<ul>';
 			        $.each(n.menus, function(j, o) {
-						menulist += '<li><div><a ref="'+o.menuid+'" href="javascript:void(0)" rel="' + o.url + '" ><span class="icon '+o.icon+'" ></span><span class="nav">' + o.menuname + '</span></a></div></li> ';
-						if( o.menuid != null && o.menuid == 11 ) {
-							_this.addTab(o.menuname,o.url,n.icon);
+						menulist += '<li><div><a ref="'+o.id+'" href="javascript:void(0)" rel="' + o.url + '" ><span class="icon '+o.icon+'" ></span><span class="nav">' + o.name + '</span></a></div></li> ';
+						if( o.id != null && o.id == 1000101 ) {
+							_this.addTab(o.name,o.url,n.icon);
 						}
 			        });
 					menulist += '</ul>';
 					$('#nav').accordion('add', {
-			            title: n.menuname,
+			            title: n.name,
 			            content: menulist,
 			            iconCls: 'icon ' + n.icon
 			        });
