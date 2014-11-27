@@ -58,7 +58,7 @@
 	        if (q.length <= 1){return false;}
 	        $.ajax({
 	            url: '/user/searchJSON',
-	            dataType: 'jsonp',
+	            dataType: 'json',
 	            data: {
 	                featureClass: "P",
 	                style: "full",
@@ -66,7 +66,7 @@
 	                name_startsWith: q
 	            },
 	            success: function(data){
-	                var items = $.map(data, function(item){
+	                var items = $.map(data.value, function(item){
 	                    return {
 	                        id: item.id,
 	                        name: item.name
@@ -93,7 +93,7 @@
 			    	var content = CKEDITOR.instances.content.getData(); //获取textarea的值
 			    	var name = $('#name').val(), repair = $("[name='repair']").val();
 			    	if( !content || !name || !repair ) {
-			    		window.parent.msgShow("错误","请把信息填写完整后再提交！","error");
+			    		window.parent.mainPage.msgShow("错误","请把信息填写完整后再提交！","error");
 			    		return false;
 			    	}
 			    },
