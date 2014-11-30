@@ -21,9 +21,9 @@
 <link rel="stylesheet" type="text/css" href="/static/css/main.css">
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/static/js/sockjs.min.js"></script>
 <script type="text/javascript" src="/static/js/fix.js"></script><!-- import this file for fixing two request bug -->
 <script type="text/javascript" src="/static/js/main.js"></script>
-<script type="text/javascript" src="/static/js/sockjs.min.js"></script>
 <script type="text/javascript">
 	_islogin = <%=islogin%>;
 	if(!_islogin){

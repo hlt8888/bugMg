@@ -55,7 +55,7 @@
 					<td style="width:330px;">
 						<input class="easyui-textbox" disabled type="text" name="username" data-options="required:true" value="${bug.repair }" />
 					</td>
-                    <td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateBug()">Save</a> </td>
+                    <td><a href="javascript:void(0)" class="easyui-linkbutton" id="saveBug" >Save</a> </td>
 				</tr>
 			</table>
 		</div>
@@ -66,49 +66,58 @@
 		</div>
 	</div>
 	<div style="display:none;">
-		<textarea class="ckeditor" cols="80" id="content" name="content" rows="10"></textarea>
+		<textarea class="ckeditor" cols="80" id="msg_content" name="msg_content" rows="10"></textarea>
 		<div style="text-align: center; padding: 5px">
-			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitMessage()">SubmitMessage</a> 
+			<a href="javascript:void(0)" class="easyui-linkbutton" id="addMessage" >AddMessage</a> 
 		</div>
 	</div>
 	<script>
 		function submitMessage() {
-			var $_c = CKEDITOR.instances.content.getData(); //获取textarea的值
+			var $_c = CKEDITOR.instances.msg_content.getData(); //获取textarea的值
 			console.log($_c);
-			CKEDITOR.instances.content.setData(null);
+			CKEDITOR.instances.msg_content.setData(null);
 		}
-		
-		function updateBug(){
-			var bug_id = $('#bug_id').val();
-			var createdby = $('#createdby').val();
-			var userid = $('#userid').val();
-			var action = $('#action').combobox("getValue");
-			if(userid != createdby){
-				window.parent.msgShow("错误","只有创建者才有权限进行状态更新！","error");
-			} else {
+
+		$(document).ready(function(){
+			function initMessage() {
+				var bug_id = $('#bug_id').val();
 				$.ajax({
 					type : "get",
-					url : "/aj/bug/updatebug",
-					data : "bug_id=" + bug_id+"&action="+action+"&createdby="+createdby,
+					url : "/aj/bug/getmessages",
+					data : "bug_id=" + bug_id,
 					success : function(data) {
-						if(data === "OK"){
-							window.parent.mainPage.msgShow("Save","保存成功！","info");
-						} else {
-							window.parent.mainPage.msgShow("错误","保存失败！","error");
-						}
-						
+						console.log(data);
 					}
 				});
 			}
-		}
-		$(document).ready(function(){
-			var bug_id = $('#bug_id').val();
-			$.ajax({
-				type : "get",
-				url : "/aj/bug/getmessages",
-				data : "bug_id=" + bug_id,
-				success : function(data) {
-					console.log(data);
+			
+			initMessage();
+			
+			$('#addMessage').on('click', function() {
+				var bug_id = $('#bug_id').val();
+			});
+			
+			$('#saveBug').on('click', function() {
+				var bug_id = $('#bug_id').val();
+				var createdby = $('#createdby').val();
+				var userid = $('#userid').val();
+				var action = $('#action').combobox("getValue");
+				if(userid != createdby){
+					window.parent.mainPage.msgShow("错误","只有创建者才有权限进行状态更新！","error");
+				} else {
+					$.ajax({
+						type : "get",
+						url : "/aj/bug/updatebug",
+						data : "bug_id=" + bug_id+"&action="+action+"&createdby="+createdby,
+						success : function(data) {
+							if(data === "OK"){
+								window.parent.mainPage.msgShow("Save","保存成功！","info");
+							} else {
+								window.parent.mainPage.msgShow("错误","保存失败！","error");
+							}
+							
+						}
+					});
 				}
 			});
 		});
