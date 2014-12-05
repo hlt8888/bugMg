@@ -20,7 +20,7 @@ public class SystemWebSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         users.add(session);
-        String userName = (String) session.getAttributes().get("");//Constants.WEBSOCKET_USERNAME
+        String userName = null;//(String) session.getAttributes().get("");//Constants.WEBSOCKET_USERNAME
         if(userName!= null){
             //查询未读消息
 //            int count = webSocketService.getUnReadNews((String) session.getAttributes().get(""));//Constants.WEBSOCKET_USERNAME

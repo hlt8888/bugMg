@@ -39,4 +39,8 @@ public class MBugService {
 	public void updateBug(Map<String, String> map_set, Map<String, String> map_where){
 		dao.updateBug(map_set, map_where);
 	}
+
+	public void msgAdd(Map<String, String> new_msg) {
+		dao.msgAdd(new_msg);
+	}
 }

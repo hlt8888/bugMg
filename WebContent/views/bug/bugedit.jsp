@@ -17,6 +17,7 @@
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/static/js/plugin.js"></script>
 </head>
 <body style="overflow: auto;">
 	<div class="easyui-panel" style="display: inline;  float: left;">
@@ -64,20 +65,17 @@
 		</div>
 		<div class="messages" id="messages">
 		</div>
+		<div>
+			 <a href="#" id="showMessageEdit" class="easyui-linkbutton" data-options="iconCls:'icon-add'">Add Message</a>
+		</div>
 	</div>
-	<div style="display:none;">
+	<div id="ck_div" style="display:none;">
 		<textarea class="ckeditor" cols="80" id="msg_content" name="msg_content" rows="10"></textarea>
 		<div style="text-align: center; padding: 5px">
 			<a href="javascript:void(0)" class="easyui-linkbutton" id="addMessage" >AddMessage</a> 
 		</div>
 	</div>
 	<script>
-		function submitMessage() {
-			var $_c = CKEDITOR.instances.msg_content.getData(); //获取textarea的值
-			console.log($_c);
-			CKEDITOR.instances.msg_content.setData(null);
-		}
-
 		$(document).ready(function(){
 			function initMessage() {
 				var bug_id = $('#bug_id').val();
@@ -86,7 +84,24 @@
 					url : "/aj/bug/getmessages",
 					data : "bug_id=" + bug_id,
 					success : function(data) {
-						console.log(data);
+						var _bugs = data;
+						if ( _bugs && _bugs.length > 0 ) {
+							var _html = "";
+							$(_bugs).each(function() {
+								var msg = "<div id=\"p_" + this.id + "\">" + this.message + "</div>";
+								_html += msg;
+							});
+							$('#messages').html(_html);
+							
+							$(_bugs).each(function() {
+								var _id = "p_" + this.id;
+								$('#' + _id).panel({
+								    width:500,
+								    height:150,
+								    title:this.username + " " +this.createddate
+								}); 
+							});
+						}
 					}
 				});
 			}
@@ -95,6 +110,25 @@
 			
 			$('#addMessage').on('click', function() {
 				var bug_id = $('#bug_id').val();
+				var _msg_content = CKEDITOR.instances.msg_content.getData(); //获取textarea的值
+				$.ajax({
+					type : "POST",
+					url : "/aj/bug/addMessage",
+					data : "bug_id=" + bug_id + "&msg_content=" + _msg_content,
+					success : function(data) {
+						var _data = data;
+						
+				    	if(_data.flag==="OK"){
+				    		window.parent.mainPage.msgShow( _data.title, _data.msg, _data.msgType );
+				    		$('#ck_div').toggle();
+							CKEDITOR.instances.msg_content.setData(null);
+							initMessage();
+				    	} else {
+				    		window.parent.mainPage.msgShow( _data.title, _data.msg, _data.msgType );
+				    		return false;
+				    	}
+					}
+				});
 			});
 			
 			$('#saveBug').on('click', function() {
@@ -115,10 +149,13 @@
 							} else {
 								window.parent.mainPage.msgShow("错误","保存失败！","error");
 							}
-							
 						}
 					});
 				}
+			});
+			
+			$('#showMessageEdit').on('click', function() {
+				$('#ck_div').toggle();
 			});
 		});
 	</script>

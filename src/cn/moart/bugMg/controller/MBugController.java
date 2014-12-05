@@ -74,9 +74,44 @@ public class MBugController {
 		return map;
 	}
 	
+	@RequestMapping("/aj/bug/addMessage")
+	public @ResponseBody Map<String, String> msgAdd(String bug_id, String msg_content, HttpSession session){
+		Map<String, Object> user = (Map<String, Object>)session.getAttribute("user");
+		Map<String, String> map = new HashMap<String, String> ();
+		int userid = 0;
+		
+		if(user == null || bug_id == null || msg_content == null){
+			map.put("flag", "NG");
+			map.put("title", "错误");
+			map.put("msgType", "error");
+			map.put("msg", "请登录后再进行操作！");
+			return map;
+		}
+		userid = (Integer)user.get("id");
+		Map<String, String> new_msg = new HashMap<String, String> ();
+		new_msg.put("m_bug_id", bug_id);
+		new_msg.put("message", msg_content);
+		new_msg.put("createdby", String.valueOf(userid));
+		service.msgAdd(new_msg);
+		
+		map.put("flag", "OK");
+		map.put("title", "Save");
+		map.put("msgType", "info");
+		map.put("msg", "保存成功！");
+		return map;
+	}
+	
 	@RequestMapping("/views/bug/tonew_bug")
 	public String toNewbug(ModelMap model){
-		SystemWebSocketHandler.sendMessageToUsers(new TextMessage("ha ha ha"));
+		boolean flag = false;
+		try {
+			SystemWebSocketHandler.sendMessageToUsers(new TextMessage("ha ha ha"));
+		} catch (Exception e) {
+			flag = true;
+		}
+		if( flag ) {
+			SystemWebSocketHandler.sendMessageToUsers(new TextMessage("ha ha ha"));
+		}
 		List<MUser> listuser = userService.getAll();
 		model.addAttribute("listuser", listuser);
 		return "/views/bug/bugnew";

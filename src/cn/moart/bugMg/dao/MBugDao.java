@@ -37,6 +37,13 @@ public class MBugDao {
 		Object[] parameters = new Object[] { bug.getName(), bug.getContent(), bug.getCreatedby(), bug.getAction(), bug.getRepair()};
 		jdbcTemplate.update(sql, parameters);
 	}
+	
+	public void msgAdd(Map<String, String> new_msg) {
+		String sql = "insert into m_message(m_bug_id, message, createdby) values "
+				+ "(?, ?, ?)";
+		Object[] parameters = new Object[] { new_msg.get("m_bug_id"), new_msg.get("message"), new_msg.get("createdby")};
+		jdbcTemplate.update(sql, parameters);
+	}
 //Add end
 
 //Update begin
@@ -137,5 +144,4 @@ public class MBugDao {
 		return jdbcTemplate.query(sql.toString(), mapper, bug_id);
 	}
 //Search end
-	
 }
