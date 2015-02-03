@@ -104,14 +104,14 @@ public class MBugController {
 	@RequestMapping("/views/bug/tonew_bug")
 	public String toNewbug(ModelMap model){
 		boolean flag = false;
-		try {
+		/*try {
 			SystemWebSocketHandler.sendMessageToUsers(new TextMessage("ha ha ha"));
 		} catch (Exception e) {
 			flag = true;
 		}
 		if( flag ) {
 			SystemWebSocketHandler.sendMessageToUsers(new TextMessage("ha ha ha"));
-		}
+		}*/
 		List<MUser> listuser = userService.getAll();
 		model.addAttribute("listuser", listuser);
 		return "/views/bug/bugnew";

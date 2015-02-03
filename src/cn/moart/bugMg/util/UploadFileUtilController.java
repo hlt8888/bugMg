@@ -42,7 +42,7 @@ public class UploadFileUtilController {
 			FileUtils.copyInputStreamToFile(file.getUpload().getInputStream(),
 					new File(realPath, filename));
 		}
-		String _url = "http://127.0.0.1:8080/" + realPath.substring(realPath.indexOf("static")).replace("\\", "/")+"/"+filename;
+		String _url = "http://192.168.1.99:8080/" + realPath.substring(realPath.indexOf("static")).replace("\\", "/")+"/"+filename;
 		return "<script type='text/javascript'>"
 				+ "window.parent.CKEDITOR.tools.callFunction(" + callback
 				+ ",'" + (_url)

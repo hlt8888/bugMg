@@ -112,7 +112,7 @@ public class InitRedisService {
 		template.opsForHash().put(key, "id", "1000201");
 		template.opsForHash().put(key, "name", "正式员工");
 		template.opsForHash().put(key, "icon", "icon-sys");
-		template.opsForHash().put(key, "url", "");
+		template.opsForHash().put(key, "url", "/views/user/userlist.jsp?cat=1");
 		template.opsForHash().put(key, "parent_id", "1000200");
 		template.opsForSet().add("menuid", key);
 
@@ -120,8 +120,24 @@ public class InitRedisService {
 		template.opsForHash().put(key, "id", "1000202");
 		template.opsForHash().put(key, "name", "实习生");
 		template.opsForHash().put(key, "icon", "icon-sys");
-		template.opsForHash().put(key, "url", "");
+		template.opsForHash().put(key, "url", "/views/user/userlist.jsp?cat=2");
 		template.opsForHash().put(key, "parent_id", "1000200");
+		template.opsForSet().add("menuid", key);
+		
+		key = "menuid_"+"1000300";
+		template.opsForHash().put(key, "id", "1000300");
+		template.opsForHash().put(key, "name", "WiKi图片列表");
+		template.opsForHash().put(key, "icon", "icon-sys");
+		template.opsForHash().put(key, "url", "");
+		template.opsForHash().put(key, "parent_id", "0");
+		template.opsForSet().add("menuid", key);
+		
+		key = "menuid_"+"1000301";
+		template.opsForHash().put(key, "id", "1000301");
+		template.opsForHash().put(key, "name", "查询列表");
+		template.opsForHash().put(key, "icon", "icon-sys");
+		template.opsForHash().put(key, "url", "/views/imageabout/listurllist.jsp");
+		template.opsForHash().put(key, "parent_id", "1000300");
 		template.opsForSet().add("menuid", key);
 	}
 	
