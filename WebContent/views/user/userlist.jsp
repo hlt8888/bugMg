@@ -108,6 +108,7 @@
 			         });
 				},
 				getEditRow: function( lastIndex, field ){
+					
 					return $FD = jQuery('#list_table').datagrid('getEditor', {
 				        index : lastIndex,
 				        field : field
@@ -148,87 +149,32 @@
 				columns:[[
 					{field:'id', title:'ID',width:200},
 					{field:'name',title:'UserName',width:200,editor:'text'},
-					{field:'eamil',title:'Email',width:500,editor:'text'},
-					{
-						field:'role',
-						title:'Role',
-						width:500,
-						formatter: function(val,row,index) {
-							for( var i = 0; i < Userlist.rols.length; i++ ) {
-								if( Userlist.rols[i].roid == val) {
-									return Userlist.rols[i].roname;
-								}
-							}
-							return val;
-						},
-						editor: {
-							type: 'combobox',
-							options: {
-								valueField: 'roid',
-								textField: 'roname',
-								data: Userlist.rols,
-								required: true,
-								onSelect: function(rec) {
-									if( !!rec ) {
-										Userlist.getDeps( rec.roid );
-										Userlist.sdroleid = rec.roid;
-										var depart =  Userlist.getEditRow(Userlist.lastIndex, 'depart');
-		                                var depart_t = depart.target;
-		                                depart_t.combobox('clear');
-		                                var url = '/user/depsbyid?roid=' + rec.roid + '&random=' + Math.random();
-		                                depart_t.combobox('reload', url);
-		                                
-		                                var dpno =  Userlist.getEditRow(Userlist.lastIndex, 'dpno');
-		                                var dpno_t = dpno.target;
-		                                dpno_t.text('clear');
-		                                dpno_t.text('reload', rec.roid);
-									} else {
-										Userlist.sdroleid = null;
-									}
-								}
-							}
-						}
-					},
-					{
-						field:'depart',
-						title:'Department',
-						width:500,
-						formatter: function(val,row,index) {
-							for( var i = 0; i < Userlist.deps.length; i++ ) {
-								if( Userlist.deps[i].depid == val) {
-									return Userlist.deps[i].depname;
-								}
-							}
-							return val;
-						},
-						editor: {
-							type: 'combobox',
-							options: {
-								valueField: 'depid',
-								textField: 'depname',
-								data: Userlist.deps,
-								required: true
-							}
-						}
-					},
-					{
-						field:'dpno',
-						title:'DPNO',
-						width:500,
-						editor: {
-							type: 'text'
-						}
-					}
+					{field:'eamil',title:'Email',width:500,editor:'text'}
 				]],
 				onDblClickRow:function(rowIndex,rowData){
 		        	Userlist.getDeps(10);
-		        	debugger;
 		        	if (Userlist.lastIndex != rowIndex){
 						$('#list_table').datagrid('endEdit', Userlist.lastIndex);
 						$('#list_table').datagrid('beginEdit', rowIndex);
 					}
 		        	
 		        	Userlist.lastIndex = rowIndex;
+		        },
+		        onLoadSuccess:function(){
+		        	/* var merges = [{
+						index: 3,
+						rowspan: 2
+					},{
+						index: 4,
+						rowspan: 2
+					}];
+					for(var i=0; i<merges.length; i++){
+						$(this).datagrid('mergeCells',{
+							index: merges[i].index,
+							field: 'email',
+							rowspan: merges[i].rowspan
+						});
+					} */
 		        },
 				toolbar: [
 					{
@@ -239,10 +185,7 @@
 							$('#list_table').datagrid('appendRow',{
 								id:'',
 								name:'',
-								email:'',
-								role:'',
-								depart:'',
-								dpno:''
+								email:''
 							});
 								
 							Userlist.lastIndex = $('#list_table').datagrid('getRows').length-1;
