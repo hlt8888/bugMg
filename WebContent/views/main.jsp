@@ -27,7 +27,7 @@
 <script type="text/javascript">
 	_islogin = <%=islogin%>;
 	if(!_islogin){
-		// a test commit
+		// a test comm
 		window.location.href = "/views/login.jsp";
 	}
 </script>
