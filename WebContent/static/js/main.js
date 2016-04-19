@@ -1,6 +1,6 @@
 ﻿(function($, exports) {
 	var MainPage = {
-			_url: "http://192.168.1.99:8080",
+			_url: "http://127.0.0.1:8080",
 			_menus: {
 				"menus" : [
 						{
@@ -263,14 +263,14 @@
 			
 			initWebSocket: function() {
 				var _this = MainPage, ws = null,
-					target = "ws://192.168.1.99:8080/webSocketServer";
+					target = "ws://127.0.0.1:8080/webSocketServer";
 				
 				if ( 'WebSocket' in window ) {
 					MainPage.ws = ws = new WebSocket( target );
 				} else if ( 'MozWebSocket' in window ) {
 					MainPage.ws = ws = new MozWebSocket( target );
 				} else {
-					MainPage.ws = ws = new SockJS("http://192.168.1.99:8080/sockjs/webSocketServer");
+					MainPage.ws = ws = new SockJS("http://127.0.0.1:8080/sockjs/webSocketServer");
 					_this.msgShow( "提醒", "该浏览器不支持WebSocket，请选择Chrome、Firefox或高版本的IE等其他浏览器！", "info" );
 				}
 				

@@ -1,5 +1,7 @@
 package cn.moart.bugMg.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +14,10 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import cn.moart.bugMg.bean.MBug;
@@ -32,10 +37,24 @@ public class MBugDao {
 	
 //Add begin
 	public void bugAdd(MBug bug) {
-		String sql = "insert into m_bug(name, content, createdby, action, repair) values "
+		final String sql = "insert into m_bug(name, content, createdby, action, repair) values "
 				+ "(?, ?, ?, ?, ?)";
 		Object[] parameters = new Object[] { bug.getName(), bug.getContent(), bug.getCreatedby(), bug.getAction(), bug.getRepair()};
 		jdbcTemplate.update(sql, parameters);
+		
+		/*KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(
+	            new PreparedStatementCreator() {
+	                public PreparedStatement createPreparedStatement(Connection con) throws SQLException
+	                {
+	                    PreparedStatement ps = jdbcTemplate.getDataSource()
+	                            .getConnection().prepareStatement(sql,new String[]{ "SITE_ID" ,"NAME"});
+	                    ps.setString(1, "站点号");
+	                    ps.setString(2, "我的名字");
+	                    return ps;
+	                }
+	            }, keyHolder);
+	    System.out.println("自动插入id============================" + keyHolder.getKey().intValue());*/
 	}
 	
 	public void msgAdd(Map<String, String> new_msg) {

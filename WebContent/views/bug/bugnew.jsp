@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Add a Bug</title>
@@ -55,7 +55,7 @@
 	<script>
 		var repair = function(param,success,error){
 	        var q = param.q || '';
-	        if (q.length <= 1){return false;}
+	        /* if (q.length <= 1){return false;} */
 	        $.ajax({
 	            url: '/user/searchJSON',
 	            dataType: 'json',
